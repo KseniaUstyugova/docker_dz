@@ -24,14 +24,12 @@
       exit();
     }
 
-    echo("hhh");
-
     $query = "SELECT * From Person";
     $result = mysqli_query($conn, $query);
 
     echo '<table class="table table-striped">';
     echo '<thead><tr><th></th><th>id</th><th>name</th></tr></thead>';
-    while($value = $result->fetch_array())
+    while($value = $result->fetch_assoc())
     {
         echo '<tr>';
         echo '<td><a href="#"><span class="glyphicon glyphicon-search"></span></a></td>';
@@ -47,6 +45,24 @@
 
     mysqli_close($conn);
 
+echo "<h3>PostgreSQL:</h3>";
+
+$pg = pg_connect("host=postgresql dbname=postgres_db user=postgres_user password=postgres_password");
+$pg_result = pg_query($pg, "SELECT * FROM Person ORDER BY id");
+
+echo '<table class="table table-striped">';
+echo '<thead><tr><th>id</th><th>name</th></tr></thead>';
+
+while ($row = pg_fetch_assoc($pg_result)) {
+    echo '<tr>';
+    echo '<td>' . $row['id'] . '</td>';
+    echo '<td>' . $row['name'] . '</td>';
+    echo '</tr>';
+}
+
+echo '</table>';
+
+pg_close($pg);
     ?>
     </div>
 </body>

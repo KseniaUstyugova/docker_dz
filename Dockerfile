@@ -1,2 +1,3 @@
-FROM php:7.0.30-apache
-RUN docker-php-ext-install mysqli
+FROM php:8.1-apache
+RUN apt-get update && apt-get install -y libpq-dev
+RUN docker-php-ext-install mysqli pgsql pdo_pgsql
